@@ -1,0 +1,15 @@
+{
+  "hash": "0138d873b03fa86360f3aeee54d26cfe",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Combining flowcam data\"\nauthor: \"Hannah Gossner\"\nformat: html\neditor: visual\n---\n\n\nThis code takes individual files from the flowcam output and concatenates them into a single file. Output file is already uploaded into data.\n\n\n::: {.cell}\n\n```{.r .cell-code .hidden}\n# Set the folder path (change to your folder)\nfolder_path <- \"~/Documents/UNH/Shellfish and HABs/Flowcam Data\"\n\n# List all CSV files in the folder\ncsv_files <- list.files(folder_path, pattern = \"\\\\.csv$\", full.names = TRUE)\n\n# Read the first CSV file (with headers)\ncombined_data <- read.csv(csv_files[1])\n\n# Loop through the remaining CSV files\nfor (file in csv_files[-1]) {\n  # Read the CSV file, skipping the first row (header)\n  temp_data <- read.csv(file, skip = 1)\n  \n  # Ensure the column names match the first file\n  colnames(temp_data) <- colnames(combined_data)\n  \n  # Combine the new data with the existing combined data\n  combined_data <- rbind(combined_data, temp_data)\n}\n\n# Write the combined data to a new CSV file\nwrite.csv(combined_data, \"~/Documents/UNH/Shellfish and HABs/Flowcam Data/combined_output.csv\", row.names = FALSE)\n```\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

@@ -1,0 +1,34 @@
+---
+title: "Combining flowcam data"
+author: "Hannah Gossner"
+format: html
+editor: visual
+---
+
+This code takes individual files from the flowcam output and concatenates them into a single file. Output file is already uploaded into data.
+
+```{r}
+# Set the folder path (change to your folder)
+folder_path <- "~/Documents/UNH/Shellfish and HABs/Flowcam Data"
+
+# List all CSV files in the folder
+csv_files <- list.files(folder_path, pattern = "\\.csv$", full.names = TRUE)
+
+# Read the first CSV file (with headers)
+combined_data <- read.csv(csv_files[1])
+
+# Loop through the remaining CSV files
+for (file in csv_files[-1]) {
+  # Read the CSV file, skipping the first row (header)
+  temp_data <- read.csv(file, skip = 1)
+  
+  # Ensure the column names match the first file
+  colnames(temp_data) <- colnames(combined_data)
+  
+  # Combine the new data with the existing combined data
+  combined_data <- rbind(combined_data, temp_data)
+}
+
+# Write the combined data to a new CSV file
+write.csv(combined_data, "~/Documents/UNH/Shellfish and HABs/Flowcam Data/combined_output.csv", row.names = FALSE)
+```
