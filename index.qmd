@@ -68,6 +68,7 @@ library(lubridate)
 library(lme4)
 library(broom)
 library(knitr)
+library(rmarkdown)
 library(kableExtra)
 library(scales)
 
